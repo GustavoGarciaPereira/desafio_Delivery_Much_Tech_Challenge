@@ -5,13 +5,14 @@ require('dotenv').config()
 
 const app = express();
 
-app.get('/recipes/:ingredient_1/:ingredient_2',(request,response)=>{
+app.get('/recipes/:ingredient_1/:ingredient_2',async (request,response)=>{
   //response.send(`<h1>Gustvo</h1>`)
   console.log(request.params.ingredient_1)
   console.log(request.params.ingredient_2)
-  consulta_apis(response,{"ingredient_1":request.params.ingredient_1,
+  const oi = await consulta_apis(response,{"ingredient_1":request.params.ingredient_1,
                           "ingredient_2":request.params.ingredient_2})
-    
+  
+  console.log(oi)
 
 })
 
@@ -19,7 +20,10 @@ app.get('/recipes/:ingredient_1/:ingredient_2',(request,response)=>{
 function consulta_apis(res,{ ingredient_1,ingredient_2 }){
     const comida = `http://www.recipepuppy.com/api/?i=${ingredient_1},${ingredient_2}&q=omelet&p=3`
     //const gif = `http://api.giphy.com/v1/gifs/search?q=${formatar_title_gifs(data.results[0].title)}&api_key=goJ6l4rzB8TU9T4SD1VuxWCmLrvHeY9H&limit=1`
-    let comidaOjs = new Object()
+    let comidaOjs = new Object();
+    let comidaOjs2 = new Object();
+
+    comidaOjs["keywords"]=[ingredient_1,ingredient_2]
     let list = []
     let sei_la = fetch(comida)
     .then(response => response.json())
@@ -33,23 +37,43 @@ function consulta_apis(res,{ ingredient_1,ingredient_2 }){
           fetch(`http://api.giphy.com/v1/gifs/search?q=${formatar_title_gifs(e.title)}&api_key=${process.env.API_GIF_KAY}&limit=1`)
           .then(response => response.json())
           .then(data => {
-            comidaOjs["title"]=e.title
-            comidaOjs["ingredients"]= formatar_ingredients(e.ingredients)
-            comidaOjs["link"]=e.href,
-            comidaOjs["gif"]=data.data[0].embed_url
-            list.push(comidaOjs)
-            comidaOjs = {}
+
+            //comidaOjs2["title"]=       e.title
+            //comidaOjs2["ingredients"]= formatar_ingredients(e.ingredients)
+            //comidaOjs2["link"]=        e.href,
+            //comidaOjs2["gif"]=         data.data[0].embed_url
+            let returnedTarget = Object.assign({
+             ["title"]: e.title,
+             ["ingredients"]:formatar_ingredients(e.ingredients),
+             ["link"]: e.href,
+             
+            }, {["gif"]:data.data[0].embed_url});
+            
+            list.push(returnedTarget)
+
+            returnedTarget = {}
+
+            
+
+
              
             return list 
           }).then(x=>{
-              res.json(x)
-              console.log(x)
+
+            //res.json(returnedTarget)
+            comidaOjs["recipes"] = x
+            console.log(x)
+            //res.json(comidaOjs)
+             
+              //console.log(comidaOjs)
+              res.json(comidaOjs)
           })
         });
 
       });
-}
 
+      console.log(comidaOjs)
+}
 
 function formatar_ingredients(ingredientes){
     console.log("",)
