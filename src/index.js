@@ -1,18 +1,23 @@
 const express = require('express')
 const fetch = require('node-fetch');
 //var request = require('request-promise');
+require('dotenv').config()
 
 const app = express();
 
-app.get("",(request,response)=>{
-
-    consulta_apis(response)
+app.get('/recipes/:ingredient_1/:ingredient_2',(request,response)=>{
+  //response.send(`<h1>Gustvo</h1>`)
+  console.log(request.params.ingredient_1)
+  console.log(request.params.ingredient_2)
+  consulta_apis(response,{"ingredient_1":request.params.ingredient_1,
+                          "ingredient_2":request.params.ingredient_2})
+    
 
 })
 
 
-function consulta_apis(res){
-    const comida = `http://www.recipepuppy.com/api/?i=onions,garlic&q=omelet&p=3`
+function consulta_apis(res,{ ingredient_1,ingredient_2 }){
+    const comida = `http://www.recipepuppy.com/api/?i=${ingredient_1},${ingredient_2}&q=omelet&p=3`
     //const gif = `http://api.giphy.com/v1/gifs/search?q=${formatar_title_gifs(data.results[0].title)}&api_key=goJ6l4rzB8TU9T4SD1VuxWCmLrvHeY9H&limit=1`
     let comidaOjs = new Object()
     let list = []
@@ -25,7 +30,7 @@ function consulta_apis(res){
     })
     .then(data => {
         data.forEach(function(e, index,array) {
-          fetch(`http://api.giphy.com/v1/gifs/search?q=${formatar_title_gifs(e.title)}&api_key=goJ6l4rzB8TU9T4SD1VuxWCmLrvHeY9H&limit=1`)
+          fetch(`http://api.giphy.com/v1/gifs/search?q=${formatar_title_gifs(e.title)}&api_key=${process.env.API_GIF_KAY}&limit=1`)
           .then(response => response.json())
           .then(data => {
             comidaOjs["title"]=e.title
@@ -37,6 +42,7 @@ function consulta_apis(res){
              
             return list 
           }).then(x=>{
+              res.json(x)
               console.log(x)
           })
         });
@@ -70,6 +76,6 @@ function formatar_title_gifs(title){
 }
 
 
-app.listen(3000,()=>{
+app.listen(process.env.PORT,()=>{
     console.log("gusta")
 })
