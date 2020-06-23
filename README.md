@@ -7,8 +7,7 @@ desafio Delivery Much Tech Challenge
 
 
 bom começe clonadando o  meu repositorio
-
-git clone git@github.com:GustavoGarciaPereira/desafio_Delivery_Much_Tech_Challenge.git
+[repositorio](git clone git@github.com:GustavoGarciaPereira/desafio_Delivery_Much_Tech_Challenge.git)
 
 
 apos ter clonado com sucesso
