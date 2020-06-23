@@ -17,7 +17,7 @@ app.get('/recipes/:ingredient_1/:ingredient_2',async (request,response)=>{
 })
 
 
-function consulta_apis(res,{ ingredient_1,ingredient_2 }){
+async function consulta_apis(res,{ ingredient_1,ingredient_2 }){
     const comida = `http://www.recipepuppy.com/api/?i=${ingredient_1},${ingredient_2}&q=omelet&p=3`
     //const gif = `http://api.giphy.com/v1/gifs/search?q=${formatar_title_gifs(data.results[0].title)}&api_key=goJ6l4rzB8TU9T4SD1VuxWCmLrvHeY9H&limit=1`
     let comidaOjs = new Object();
@@ -25,7 +25,7 @@ function consulta_apis(res,{ ingredient_1,ingredient_2 }){
 
     comidaOjs["keywords"]=[ingredient_1,ingredient_2]
     let list = []
-    let sei_la = fetch(comida)
+    let sei_la = await fetch(comida)
     .then(response => response.json())
     .then(data => {
       data = data.results
@@ -34,7 +34,7 @@ function consulta_apis(res,{ ingredient_1,ingredient_2 }){
     })
     .then(data => {
         data.forEach(function(e, index,array) {
-          fetch(`http://api.giphy.com/v1/gifs/search?q=${formatar_title_gifs(e.title)}&api_key=${process.env.API_GIF_KAY}&limit=1`)
+        fetch(`http://api.giphy.com/v1/gifs/search?q=${formatar_title_gifs(e.title)}&api_key=${process.env.API_GIF_KAY}&limit=1`)
           .then(response => response.json())
           .then(data => {
 
@@ -62,17 +62,32 @@ function consulta_apis(res,{ ingredient_1,ingredient_2 }){
 
             //res.json(returnedTarget)
             comidaOjs["recipes"] = x
+            return comidaOjs
+            //console.log(x)
+            ////res.json(comidaOjs)
+            // 
+            //  //console.log(comidaOjs)
+            //  res.json(comidaOjs)
+          }).then(x=>{
+
+            //res.json(returnedTarget)
+
+            
             console.log(x)
-            //res.json(comidaOjs)
-             
-              //console.log(comidaOjs)
-              res.json(comidaOjs)
+            
+            ///res.json(x)
+            res.status(200).json(x)
+            return x
+            // 
+            //  //console.log(comidaOjs)
+            //  res.json(comidaOjs)
           })
+
         });
-
+        return comidaOjs
       });
-
-      console.log(comidaOjs)
+      console.log("sd",sei_la)
+      
 }
 
 function formatar_ingredients(ingredientes){
