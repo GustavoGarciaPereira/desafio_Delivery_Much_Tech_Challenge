@@ -23,12 +23,14 @@ PORT=3000
 
 ### Passo (3)
 apos isso voce roda o comando docker build
+
 docker build -t gustavo/docker-node-tutorial . 
 
 apos rode o comento run do docker e veja o resultado
 
 
 ### Passo (4)
+
 docker run -p 3000:3000 gustavo/docker-node-tutorial
 
 
