@@ -19,12 +19,15 @@ um arquivo chamado **.env**
 com o seguinte conteuro:
 
 **API_GIF_KAY=sua_chave_giphy**
+
 **PORT=3000**
 
 ### Passo (3)
 apos você roda o comando docker build
 
 na raiz do projeto que vai pegar o meu Dockerfile
+
+com tudo já configurado
 
 **docker build -t gustavo/docker-node-tutorial .**
 
