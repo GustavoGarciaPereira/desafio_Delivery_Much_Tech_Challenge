@@ -13,25 +13,28 @@ git clone git@github.com:GustavoGarciaPereira/desafio_Delivery_Much_Tech_Challen
 
 ### Passo (2)
 apos ter clonado com sucesso
-criar na raiz do projeto
-um arquivo chamado .env
+crie na raiz do projeto
+um arquivo chamado **.env**
 
 com o seguinte conteuro:
 
-API_GIF_KAY=sua_chave_giphy
-PORT=3000
+**API_GIF_KAY=sua_chave_giphy**
+**PORT=3000**
 
 ### Passo (3)
-apos isso voce roda o comando docker build
+apos você roda o comando docker build
 
-docker build -t gustavo/docker-node-tutorial . 
+na raiz do projeto que vai pegar o meu Dockerfile
 
-apos rode o comento run do docker e veja o resultado
+**docker build -t gustavo/docker-node-tutorial .**
+
+
 
 
 ### Passo (4)
+apos rode o comento run do docker e veja o resultado
 
-docker run -p 3000:3000 gustavo/docker-node-tutorial
+**docker run -p 3000:3000 gustavo/docker-node-tutorial**
 
 
 
