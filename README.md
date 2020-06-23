@@ -6,7 +6,7 @@ desafio Delivery Much Tech Challenge
 
 
 ### Passo (1)
-bom começe clonadando o  meu repositorio
+bom começe clonadando o  meu repositório
 git clone git@github.com:GustavoGarciaPereira/desafio_Delivery_Much_Tech_Challenge.git
 
 
